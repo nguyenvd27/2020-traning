@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Attribute Binding</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app1">
+        <h1>Hello World</h1>
+        Try cập <a v-bind:href="url" v-bind:title="title">{{ title }}</a>
+        <hr />
+    </div>
+
+    <div id="app2" class="static" v-bind:class="classObject">
+        <p> Class Binding</p>
+        <hr />
+    </div>
+
+    <div id="app3" v-bind:style="styleObject">
+        <p>Style Binding</p>
+    </div>
+</body>
+<script>
+    var vm1 = new Vue({
+        el: '#app1',
+        data: {
+            url: 'http://facebook.com',
+            title: 'Facebook'
+        }
+    })
+
+    var vm2 = new Vue({
+        el: '#app2',
+        data: {
+            isActive: true,
+            hasError: null
+        },
+        computed: {
+            classObject: function () {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    })
+
+    var vm3 = new Vue({
+        el: '#app3',
+        data: {
+            color: 'green',
+            fontSize: 30
+        },
+        methods: {
+
+        },
+        computed: {
+            styleObject: function() {
+                return {
+                    color: this.color,
+                    fontSize: this.fontSize + 'px'
+                }
+            }
+        }
+    })
+</script>
+
+</html>
