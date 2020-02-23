@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event Handling</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <h1>Event Handling</h1>
+    <hr />
+    <div id="example1">
+        <p> {{ count }} con cừu</p>
+        <button v-on:click="count++">Đếm cừu</button>
+        <hr />
+    </div>
+
+    <div id="example2">
+        <p>{{ name }}</p>
+        <input type="text" v-model="name" placeholder="Nhập tên">
+        <button v-on:click="handleName()">OK</button>
+    </div>
+</body>
+
+<script>
+    var example1 = new Vue({
+        el: '#example1',
+        data: {
+            count: 0
+        }
+    })
+
+    var example2 = new Vue({
+        el: '#example2',
+        data: {
+            name: ''
+        },
+        methods: {
+            handleName: function() {
+                alert('Xin chào '+ this.name);
+                this.name = '';
+            }
+        }
+    })
+</script>
+</html>

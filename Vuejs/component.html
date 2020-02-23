@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Component</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <h1>Component</h1>
+    <div id="components-demo">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+
+    <div id="props-demo">
+        <h1>Props Demo</h1>
+        <div v-bind:style="{fontSize: postFontSize + 'em'}">
+            <blog-post 
+                v-for="post in posts"
+                v-bind:post="post"
+                v-bind:key="post.id"
+                v-on:handle-font-size="upFontSize()"
+            >
+            </blog-post>
+        </div>
+    </div>
+</body>
+<script>
+    var ComponentButton = {
+        data: function() {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++"> Bạn đã bấm {{ count }} lần </button>'
+    }
+
+    new Vue({
+        el: '#components-demo',
+        components: {
+            'button-counter': ComponentButton
+        }
+    })
+    // props
+    Vue.component('blog-post',{
+        props: ['post'],
+        template: `
+            <div class="blog-post">
+                <h3> {{ post.title }}</h3>
+                <button v-on:click="$emit('handle-font-size')"> Phóng to </button>
+                <div v-html="post.content"></div>
+            </div>`
+    })
+
+    new Vue({
+        el: '#props-demo',
+        data: {
+            posts: [
+                {
+                    id: 1, 
+                title: 'Giới thiệu về Vuejs',
+                content: 'lalala'
+                },
+                {
+                    id: 2, 
+                    title: 'Giới thiệu về HTML',
+                    content: 'lelele'
+                },
+                {
+                    id: 3, 
+                    title: 'Giới thiệu về CSS',
+                    content: 'lululu'
+                }
+            ],
+            postFontSize: 1
+        },
+        methods: {
+            upFontSize: function() {
+                this.postFontSize = this.postFontSize+0.1
+            }
+        }
+    })
+</script>
+</html>

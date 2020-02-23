@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Props & Components</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="props-component-demo">
+        <header-demo title="Vu Duc Nguyen"></header-demo>
+        <person-list v-bind:persons= "persons"></person-list>
+    </div>
+</body>
+<script>
+    Vue.component('header-demo', {
+        props: {
+            title: String
+        },
+        template: `
+        <div>
+            <h1>{{ title }} - HUST</h1>
+            <p>私はVDNです。ベトナムから来ました。</p>
+        </div>
+        `
+    })
+
+    Vue.component('person-list', {
+        template: `
+        <div class="person-list">
+            <ul>
+                <li v-for="person in persons"
+                v-bind:key="person.id"
+                >ID: {{ person.id }}, Name: {{  person.name}}, School: {{  person.school }}</li>
+            </ul>
+            <header-demo title="Vu Duc Nguyen"></header-demo>
+        </div>
+        `,
+        props: {
+            persons: Object
+        }
+    })
+    new Vue({
+        el: '#props-component-demo',
+        data: {
+            persons: {
+                vdn: {
+                    id: 1,
+                    name: 'Vu Duc Nguyen',
+                    school: 'HUST',
+                    country: 'Vietnam'
+                },
+                hoi: {
+                    id: 2,
+                    name: 'Doan Thi Hoi',
+                    school: 'Hanui',
+                    country: 'Vietnam'
+                }
+            }
+        }
+    })
+</script>
+</html>
