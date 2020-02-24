@@ -1,13 +1,26 @@
 <template>
-  <div>
-    <h1>User</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit omnis ipsam vitae, laboriosam corrupti debitis voluptatem, neque quas voluptate harum sed et vero. Deserunt asperiores aperiam non nihil unde perspiciatis.</p>
+  <div class="mt-3">
+    <h1 class="text-center">User Management</h1>
+    <p class="text-center">This is area manage user of website</p>
+    <button class="btn btn-success btn-block" v-on:click="backHome">Back Home</button>
+    <!-- <button class="btn btn-warning btn-block" v-on:click="goToUserDetail" >Go to User Detail</button> -->
+    <hr>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'user',
+  methods: {
+    backHome () {
+      // this.$router.push('/')
+      this.$router.push({ name: 'homepage'})
+    },
+    goToUserDetail () {
+      this.$router.push('/user/1')
+    }
+  }
 }
 </script>
 

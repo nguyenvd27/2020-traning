@@ -1,5 +1,8 @@
 <template>
-  <h1>User Edit</h1>
+  <div>
+    <h1>About</h1>
+    <h3>Vu Duc Nguyen - HUST</h3>
+  </div>
 </template>
 
 <script>
