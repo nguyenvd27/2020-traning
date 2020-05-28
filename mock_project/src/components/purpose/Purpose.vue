@@ -220,7 +220,14 @@ export default {
         });
     },
     onDelete() {
-
+      axios.delete("/purposes/" + this.deleteObj.id).then(response => {
+        for(let i = 0; i < this.purposes.length; i++){
+          if(this.purposes[i].id == this.deleteObj.id){
+            this.purposes.splice(i, 1)
+          }
+        }
+        this.deleteObj = {}
+      });
     }
   },
   mounted() {
