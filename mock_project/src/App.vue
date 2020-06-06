@@ -1,14 +1,21 @@
 <template>
-  <div id="app">
+  <div id="app" class="wrapper">
     <navbar/>
-    <div class="container">
+    <sidebar/>
+    
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
       <router-view/>
     </div>
+    <!-- /.content-wrapper -->
+    <footer-page/>
   </div>
 </template>
 
 <script>
 import Navbar from "./components/layouts/Navbar.vue";
+import Sidebar from "./components/layouts/Sidebar.vue";
+import FooterPage from "./components/layouts/Footer.vue";
 
 export default {
   name: "app",
@@ -17,7 +24,9 @@ export default {
     };
   },
   components: {
-    Navbar
+    Navbar,
+    Sidebar,
+    FooterPage
   }
 };
 </script>
