@@ -3,12 +3,38 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import { routes } from './routes'
 
+import FBSignInButton from 'vue-facebook-signin-button'
+Vue.use(FBSignInButton)
+
+import { isAuth } from './authenticate'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   // mode: 'history',
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  isAuth()
+  .then(isAuth => {
+    if(to.matched.some((record) => record.meta.requiresAuth) && isAuth=='true'){
+      next()
+    }
+    else {
+      next({path: '/login'})
+    }
+  })
+  .catch(isAuth => {
+    if(to.matched.some((record) => record.meta.requiresAuth) && isAuth =='false'){
+      next({path: '/login'})
+    }
+    else {
+      next()
+    }
+  })
+})
+
 new Vue({
   el: '#app',
   router: router,

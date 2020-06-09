@@ -20,8 +20,10 @@
     <link rel="stylesheet" href="./src/assets/plugins/fullcalendar-daygrid/main.min.css"/>
     <link rel="stylesheet" href="./src/assets/plugins/fullcalendar-timegrid/main.min.css"/>
     <link rel="stylesheet" href="./src/assets/plugins/fullcalendar-bootstrap/main.min.css"/>
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="./src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   </head>
-  <body class="hold-transition sidebar-mini">
+  <body class="hold-transition sidebar-mini" >
     <div id="app"></div>
     <!-- jQuery -->
     <script src="./src/assets/plugins/jquery/jquery.min.js"></script>
@@ -43,5 +45,23 @@
     <script src="./src/assets/plugins/fullcalendar-timegrid/main.min.js"></script>
     <script src="./src/assets/plugins/fullcalendar-interaction/main.min.js"></script>
     <script src="./src/assets/plugins/fullcalendar-bootstrap/main.min.js"></script>
+    <script>
+      window.fbAsyncInit = function() {
+      FB.init({
+        // appId      : '688346691735207',
+        appId: '688346691735207',
+        cookie     : true,  // enable cookies to allow the server to access the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v7.0' // use graph api version 2.8
+      });
+    };
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
   </body>
 </html>

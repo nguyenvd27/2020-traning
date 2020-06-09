@@ -14,9 +14,15 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^7.4.2",
+    "jwt-decode": "^2.2.0",
+    "morgan": "^1.10.0",
     "mysql": "^2.14.1",
     "mysql2": "^1.6.1",
-    "sequelize": "^4.38.0",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "passport": "^0.4.1",
+    "passport-facebook-token": "^3.3.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.38.0"
   }
 }

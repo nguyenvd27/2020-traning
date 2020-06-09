@@ -12,7 +12,7 @@
         <router-link class="nav-link" to="/">Home</router-link>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <router-link to="/contact" class="nav-link">Contact</router-link>
       </li>
     </ul>
 
@@ -35,34 +35,8 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Notifications Dropdown Menu -->
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-user"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right">
-          <div class="row">
-            <div class="col-lg-6">
-              <a href="#" class="btn btn-sm">Profile</a>
-            </div>
-            <div class="col-lg-6">
-              <a href="#" class="btn btn-sm">Logout</a>
-            </div>
-          </div>
-        </div>
-      </li> -->
-
-      <li v-if="auth=='' && (token==null || token==undefined)" class="nav-item">
-        <router-link class="nav-link" to="/login">Login</router-link>
-      </li>
-      <li v-if="auth=='' && (token==null || token==undefined)" class="nav-item">
-        <router-link class="nav-link" to="/register">Register</router-link>
-      </li>
-      <li v-if="auth=='loggedin' || token!=null || token!=undefined" class="nav-item">
-        <router-link class="nav-link" to="/profile">Profile</router-link>
-      </li>
-      <li v-if="auth=='loggedin' || token!=null || token!=undefined" class="nav-item">
-        <a class="nav-link" href v-on:click="logout">Logout</a>
+      <li class="nav-item">
+        <span id="logout" class="nav-link" v-on:click="logout">Logout</span>
       </li>
     </ul>
   </nav>
@@ -71,23 +45,32 @@
 
 <script>
 import EventBus from "../EventBus";
+import VueCookie from 'vue-cookie'
+
+// import { isAuth } from '../../authenticate'
 
 export default {
   data() {
     return {
-      auth: "",
-      token: localStorage.usertoken
+      
     };
   },
   methods: {
     logout() {
-      localStorage.removeItem("usertoken");
+      VueCookie.delete('usertoken')
+      this.emitMethod()
+      this.$router.push({ name: 'login', path: '/login'})
+    },
+    emitMethod() {
+      console.log('logout event')
+      EventBus.$emit("logged-out");
     }
-  },
-  mounted() {
-    EventBus.$on("logged-in", status => {
-      this.auth = status;
-    });
   }
 };
 </script>
+
+<style>
+#logout:hover {
+  cursor: pointer;
+}
+</style>

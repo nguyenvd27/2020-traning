@@ -1,9 +1,9 @@
 import Home from './components/Home.vue'
-
 import Login from './components/Login'
 import Register from './components/Register'
-import Profile from './components/Profile'
+import Contact from './components/Contact'
 
+import Profile from './components/user/Profile'
 import User from './components/user/User.vue'
 
 import AssetType from './components/assetType/AssetType'
@@ -20,22 +20,24 @@ import AssetNew from './components/asset/AssetNew'
 import AssetDetail from './components/asset/AssetDetail'
 
 export const routes = [
-  { path: '/', name: 'homepage', component: Home },
+  { path: '/', name: 'homepage', component: Home, meta: { requiresAuth: true } },
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'register', component: Register },
-  { path: '/profile', name: 'profile', component: Profile },
-  { path: '/user', name: 'user', component: User },
+  { path: '/contact', name: 'contact', component: Contact, meta: { requiresAuth: true } },
 
-  {path: '/asset-type', name: 'asset-type', component: AssetType },
-  { path: '/purposes', name: 'purposes', component: Purpose},
-  { path: '/employee-roles', name: 'employee-roles', component: EmployeeRole },
-  { path: '/departments', name: 'departments', component: Department },
+  { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true }},
+  { path: '/user', name: 'user', component: User, meta: { requiresAuth: true }},
 
-  { path: '/employees', name: 'employee', component: Employee},
-  { path: '/employees/new', name: 'employee-new', component: EmployeeNew},
-  { path: '/employees/:id', name: 'employee-detail', component: EmployeeDetail},
+  {path: '/asset-type', name: 'asset-type', component: AssetType, meta: { requiresAuth: true }},
+  { path: '/purposes', name: 'purposes', component: Purpose, meta: { requiresAuth: true }},
+  { path: '/employee-roles', name: 'employee-roles', component: EmployeeRole, meta: { requiresAuth: true }},
+  { path: '/departments', name: 'departments', component: Department, meta: { requiresAuth: true }},
 
-  {path: '/assets', name: 'asset', component: Asset},
-  {path: '/assets/new', name: 'asset-new', component: AssetNew},
-  {path: '/assets/:id', name: 'asset-detail', component: AssetDetail}
+  { path: '/employees', name: 'employee', component: Employee, meta: { requiresAuth: true }},
+  { path: '/employees/new', name: 'employee-new', component: EmployeeNew, meta: { requiresAuth: true }},
+  { path: '/employees/:id', name: 'employee-detail', component: EmployeeDetail, meta: { requiresAuth: true }},
+
+  {path: '/assets', name: 'asset', component: Asset, meta: { requiresAuth: true }},
+  {path: '/assets/new', name: 'asset-new', component: AssetNew, meta: { requiresAuth: true }},
+  {path: '/assets/:id', name: 'asset-detail', component: AssetDetail, meta: { requiresAuth: true }}
 ]

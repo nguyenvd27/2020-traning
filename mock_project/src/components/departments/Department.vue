@@ -35,12 +35,12 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="name" class="col-form-label">Name: {{addObj.name}}</label>
-                <input type="text" class="form-control" id="name" required v-model="addObj.name">
+                <label for="name-add" class="col-form-label">Name: {{addObj.name}}</label>
+                <input type="text" class="form-control" id="name-add" required v-model="addObj.name">
               </div>
               <div class="form-group">
-                <label for="creator-email" class="col-form-label">Creator Email: {{addObj.email}}</label>
-                <input type="text" class="form-control" id="creator-email" required v-model="addObj.email">
+                <label for="creator-email-add" class="col-form-label">Creator Email: {{addObj.email}}</label>
+                <input type="text" class="form-control" id="creator-email-add" required v-model="addObj.email">
               </div>
               <hr>
               <div class="float-right">

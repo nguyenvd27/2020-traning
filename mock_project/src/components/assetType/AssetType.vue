@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="check-demo-asset">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -36,12 +36,12 @@
           <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="name" class="col-form-label">Name: {{addObj.name}}</label>
-                <input type="text" class="form-control" id="name" required v-model="addObj.name">
+                <label for="name-add" class="col-form-label">Name: {{addObj.name}}</label>
+                <input type="text" class="form-control" id="name-add" required v-model="addObj.name">
               </div>
               <div class="form-group">
-                <label for="creator-email" class="col-form-label">Creator Email: {{addObj.email}}</label>
-                <input type="text" class="form-control" id="creator-email" required v-model="addObj.email">
+                <label for="creator-email-add" class="col-form-label">Creator Email: {{addObj.email}}</label>
+                <input type="text" class="form-control" id="creator-email-add" required v-model="addObj.email">
               </div>
 
               <hr>
@@ -52,11 +52,6 @@
               </div>
             </form>
           </div>
-          <!-- <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button v-if="this.errors==0" class="btn btn-primary" data-dismiss="modal" v-on:click="onAdd()">Add</button>
-            <button v-else class="btn btn-primary" v-on:click="onAdd()">Add</button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -220,6 +215,7 @@
 <script>
 import axios from "../../callApi/Api";
 import EventBus from "../EventBus";
+import VueCookie from 'vue-cookie'
 
 export default {
   data() {
@@ -288,6 +284,7 @@ export default {
         this.assetTypes = response.data.data;
       })
       .catch(error => {
+        console.log('error')
         console.log(error);
       });
   }

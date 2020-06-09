@@ -110,6 +110,7 @@
 
 <script>
 import axios from "../callApi/Api";
+import VueCookie from 'vue-cookie'
 export default {
   data() {
     return {
