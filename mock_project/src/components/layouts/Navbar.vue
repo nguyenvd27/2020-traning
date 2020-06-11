@@ -17,14 +17,14 @@
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <form class="form-inline ml-3" v-on:submit.prevent="onSubmit">
       <div class="input-group input-group-sm">
-        <input
-          class="form-control form-control-navbar"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        >
+        <span style="width:180px"  class="form-control form-control-navbar">
+          <ejs-autocomplete v-model="searchItem" :dataSource='dataItem' :fields='dataFields'
+          placeholder="Search a asset or employee" :groupTemplate="autocompleteGroupTemplate"
+          popupWidth="250px" popupHeight="400px" :highlight="true">
+          </ejs-autocomplete>
+        </span>
         <div class="input-group-append">
           <button class="btn btn-navbar" type="submit">
             <i class="fas fa-search"></i>
@@ -32,7 +32,15 @@
         </div>
       </div>
     </form>
-
+    
+    <!-- <div style="margin:10% 25%; width: 250px;">
+      <p>{{searchItem}}</p> 
+      <ejs-autocomplete v-model="searchItem" :dataSource='dataItem' :fields='dataFields'
+      placeholder="Search a asset or employee" :groupTemplate="autocompleteGroupTemplate"
+      popupWidth="250px" popupHeight="400px" :highlight="true"> 
+      </ejs-autocomplete>
+    </div> -->
+    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -46,16 +54,36 @@
 <script>
 import EventBus from "../EventBus";
 import VueCookie from 'vue-cookie'
-
-// import { isAuth } from '../../authenticate'
+import axios from "../../callApi/Api";
 
 export default {
   data() {
     return {
-      
+      autocompleteGroupTemplate: "<b><i>${type}</b></i>",
+      assets: [],
+      employees: [],
+      dataItem: [],
+      dataFields: { value: 'name', groupBy: 'type' },
+      searchItem: "",
     };
   },
   methods: {
+    onSubmit() {
+      this.dataItem.forEach(item => {
+        if(item.name == this.searchItem && item.type == "asset code"){
+          console.log('id '+item.id)
+          const path = '/assets/'+item.id
+          this.$router.push(path)
+          // if (this.$route.path !== path){
+          //   this.$router.push(path)
+          // }
+        }
+        else if(item.name == this.searchItem && item.type == "employee"){
+          const path = '/employees/'+item.id
+          this.$router.push(path)
+        }
+      })
+    },
     logout() {
       VueCookie.delete('usertoken')
       this.emitMethod()
@@ -65,11 +93,48 @@ export default {
       console.log('logout event')
       EventBus.$emit("logged-out");
     }
+  },
+  mounted() {
+    axios
+      .get("/assets")
+      .then(response => {
+        this.assets = response.data.data;
+        this.assets.forEach(asset => {
+          asset.name = asset.asset_code
+          asset.type = "asset code"
+          this.dataItem.push(asset)
+        });
+        
+        console.log('dataItem: ', this.dataItem)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    axios
+      .get("/employees")
+      .then(response => {
+        this.employees = response.data.data;
+
+        this.employees.forEach(employee => {
+          employee.type = "employee"
+          this.dataItem.push(employee)
+        });
+        // this.dataItem.push(this.employees)
+        console.log('dataItem: ', this.dataItem)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      console.log('dataItem: ', this.dataItem)
   }
+  
 };
 </script>
 
 <style>
+
+@import url(https://cdn.syncfusion.com/ej2/material.css);
+
 #logout:hover {
   cursor: pointer;
 }

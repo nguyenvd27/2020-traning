@@ -110,7 +110,9 @@
 
 <script>
 import axios from "../callApi/Api";
-import VueCookie from 'vue-cookie'
+import VueCookie from 'vue-cookie';
+import EventBus from "./EventBus";
+
 export default {
   data() {
     return {
@@ -119,6 +121,11 @@ export default {
       employees: [],
       departments: []
     };
+  },
+  methods: {
+    emitMethod() {
+      EventBus.$emit("search-auto-complete", this.assets, this.employees);
+    }
   },
   mounted() {
     axios

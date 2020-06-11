@@ -25,7 +25,7 @@
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
         <p v-if="filled==0" class="login-box-msg text-danger">Please fill email and password</p>
-        <p v-if="error==1" class="login-box-msg text-danger">Email and password is incorrect</p>
+        <p v-if="error==1" class="login-box-msg text-danger">Email or password is incorrect</p>
         <form>
           <div class="input-group mb-3">
             <input type="email" name="email" class="form-control" required placeholder="Email" v-model="email">

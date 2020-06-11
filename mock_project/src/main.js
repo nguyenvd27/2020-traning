@@ -10,6 +10,9 @@ import { isAuth } from './authenticate'
 
 Vue.use(VueRouter)
 
+import { AutoCompletePlugin } from "@syncfusion/ej2-vue-dropdowns";
+Vue.use(AutoCompletePlugin)
+
 const router = new VueRouter({
   // mode: 'history',
   routes
