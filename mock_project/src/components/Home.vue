@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-12 text-center text-success">
-            <h1>Business Management System</h1>
+            <h1>{{$t('bms')}}</h1>
           </div>
         </div>
       </div>
@@ -22,14 +22,13 @@
               <div class="small-box bg-info">
                 <div class="inner">
                   <h3>{{this.assets.length}}</h3>
-
-                  <p>Assets</p>
+                  <p>{{$t('assets')}}</p>
                 </div>
                 <div class="icon">
                   <i class="nav-icon fab fa-bitcoin"></i>
                 </div>
                 <router-link to="/assets" class="small-box-footer">
-                  More info
+                  {{$t('moreInfo')}}
                   <i class="fas fa-arrow-circle-right"></i>
                 </router-link>
               </div>
@@ -40,14 +39,13 @@
               <div class="small-box bg-success">
                 <div class="inner">
                   <h3>{{this.assetTypes.length}}</h3>
-
-                  <p>Asset Types</p>
+                  <p>{{$t('assetTypes')}}</p>
                 </div>
                 <div class="icon">
                   <i class="nav-icon fas fa-money-check-alt"></i>
                 </div>
                 <router-link to="/asset-type" class="small-box-footer">
-                  More info
+                  {{$t('moreInfo')}}
                   <i class="fas fa-arrow-circle-right"></i>
                 </router-link>
               </div>
@@ -59,13 +57,13 @@
                 <div class="inner">
                   <h3>{{this.employees.length}}</h3>
 
-                  <p>Employees</p>
+                  <p>{{$t('employees')}}</p>
                 </div>
                 <div class="icon">
                   <i class="nav-icon fas fa-users"></i>
                 </div>
                 <router-link to="/employees" class="small-box-footer">
-                  More info
+                  {{$t('moreInfo')}}
                   <i class="fas fa-arrow-circle-right"></i>
                 </router-link>
               </div>
@@ -77,13 +75,13 @@
                 <div class="inner">
                   <h3>{{this.departments.length}}</h3>
 
-                  <p>Departments</p>
+                  <p>{{$t('departments')}}</p>
                 </div>
                 <div class="icon">
                   <i class="nav-icon fas fa-building"></i>
                 </div>
                 <router-link to="/departments" class="small-box-footer">
-                  More info
+                  {{$t('moreInfo')}}
                   <i class="fas fa-arrow-circle-right"></i>
                 </router-link>
               </div>
@@ -187,7 +185,7 @@ export default {
         //Random default events
         events: [
           {
-            title: "こんにちは",
+            title: "こんにちは| Xin chào",
             start: new Date(y, m, d),
             backgroundColor: "#f56954", //red
             borderColor: "#f56954", //red

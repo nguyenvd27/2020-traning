@@ -34,10 +34,10 @@
                     <div class="row">
                       <div class="col-7">
                         <h2 class="lead"><b>Vu Duc Nguyen</b></h2>
-                        <p class="text-muted text-sm"><b>About: </b> Web Developer </p>
+                        <p class="text-muted text-sm">Web Developer </p>
                         <ul class="ml-4 mb-0 fa-ul text-muted">
-                          <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: 31 Phan Dinh Giot</li>
-                          <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone: 0354603579</li>
+                          <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span>31 Phan Dinh Giot</li>
+                          <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>0354603579</li>
                         </ul>
                       </div>
                       <div class="col-5 text-center">

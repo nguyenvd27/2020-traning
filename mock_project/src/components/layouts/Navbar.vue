@@ -9,10 +9,10 @@
         </a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <router-link class="nav-link" to="/">Home</router-link>
+        <router-link class="nav-link" to="/">{{$t('home')}}</router-link>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <router-link to="/contact" class="nav-link">Contact</router-link>
+        <router-link to="/contact" class="nav-link">{{$t('contact')}}</router-link>
       </li>
     </ul>
 
@@ -21,7 +21,7 @@
       <div class="input-group input-group-sm">
         <span style="width:180px"  class="form-control form-control-navbar">
           <ejs-autocomplete v-model="searchItem" :dataSource='dataItem' :fields='dataFields'
-          placeholder="Search a asset or employee" :groupTemplate="autocompleteGroupTemplate"
+          :placeholder="$t('searchNav')" :groupTemplate="autocompleteGroupTemplate"
           popupWidth="250px" popupHeight="400px" :highlight="true">
           </ejs-autocomplete>
         </span>
@@ -33,18 +33,45 @@
       </div>
     </form>
     
-    <!-- <div style="margin:10% 25%; width: 250px;">
-      <p>{{searchItem}}</p> 
-      <ejs-autocomplete v-model="searchItem" :dataSource='dataItem' :fields='dataFields'
-      placeholder="Search a asset or employee" :groupTemplate="autocompleteGroupTemplate"
-      popupWidth="250px" popupHeight="400px" :highlight="true"> 
-      </ejs-autocomplete>
-    </div> -->
-    
+    <!-- Right navbar links -->
+    <!-- <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button class="multi-language" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+          <flag :iso="entry.flag" v-bind:squared=false />
+          {{entry.title}}
+        </button>
+      </li>
+      <li class="nav-item">
+        <span id="logout" class="nav-link" v-on:click="logout">{{$t('logout')}}</span>
+      </li>
+    </ul> -->
+
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <span id="logout" class="nav-link" v-on:click="logout">Logout</span>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-ellipsis-v"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="nav-item text-center">
+            <span>{{$t('language')}}: </span>
+            <button class="multi-language" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+              <flag :iso="entry.flag" v-bind:squared=false />
+              {{entry.title}}
+            </button>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="text-center">
+            <i class="far fa-user"></i>&nbsp;&nbsp;
+            <router-link to="/profile">{{$t('profile')}}</router-link>
+          </div>
+
+          <div class="dropdown-divider"></div>
+          <div class="text-center">
+            <span id="logout" class="nav-link" v-on:click="logout">{{$t('logout')}}</span>
+          </div>
+        </div>
       </li>
     </ul>
   </nav>
@@ -56,6 +83,8 @@ import EventBus from "../EventBus";
 import VueCookie from 'vue-cookie'
 import axios from "../../callApi/Api";
 
+import i18n from '../../config/i18n';
+
 export default {
   data() {
     return {
@@ -65,18 +94,22 @@ export default {
       dataItem: [],
       dataFields: { value: 'name', groupBy: 'type' },
       searchItem: "",
+      languages: [
+        { flag: 'gb', language: 'en'},
+        { flag: 'jp', language: 'jp'},
+        { flag: 'vn', language: 'vi'}
+      ]
     };
   },
   methods: {
+    changeLocale(locale) {
+      i18n.locale = locale;
+    },
     onSubmit() {
       this.dataItem.forEach(item => {
         if(item.name == this.searchItem && item.type == "asset code"){
-          console.log('id '+item.id)
           const path = '/assets/'+item.id
           this.$router.push(path)
-          // if (this.$route.path !== path){
-          //   this.$router.push(path)
-          // }
         }
         else if(item.name == this.searchItem && item.type == "employee"){
           const path = '/employees/'+item.id
@@ -90,7 +123,7 @@ export default {
       this.$router.push({ name: 'login', path: '/login'})
     },
     emitMethod() {
-      console.log('logout event')
+      // console.log('logout event')
       EventBus.$emit("logged-out");
     }
   },
@@ -104,8 +137,7 @@ export default {
           asset.type = "asset code"
           this.dataItem.push(asset)
         });
-        
-        console.log('dataItem: ', this.dataItem)
+        // console.log('dataItem: ', this.dataItem)
       })
       .catch(error => {
         console.log(error);
@@ -119,13 +151,10 @@ export default {
           employee.type = "employee"
           this.dataItem.push(employee)
         });
-        // this.dataItem.push(this.employees)
-        console.log('dataItem: ', this.dataItem)
       })
       .catch(error => {
         console.log(error);
       });
-      console.log('dataItem: ', this.dataItem)
   }
   
 };
@@ -137,5 +166,9 @@ export default {
 
 #logout:hover {
   cursor: pointer;
+}
+
+.multi-language {
+  border: 1px solid black;
 }
 </style>

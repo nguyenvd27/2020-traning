@@ -3,6 +3,14 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import { routes } from './routes'
 
+// import 'babel-polyfill' // fix error: regeneratorRuntime is not defined
+
+import FlagIcon from 'vue-flag-icon';// flag of country
+Vue.use(FlagIcon);
+import i18n from './config/i18n';
+Vue.config.productionTip = false;
+
+
 import FBSignInButton from 'vue-facebook-signin-button'
 Vue.use(FBSignInButton)
 
@@ -40,6 +48,7 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   el: '#app',
+  i18n,
   router: router,
   render: h => h(App)
 })

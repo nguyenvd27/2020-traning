@@ -5,18 +5,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Asset Management &nbsp;
+            <h1>{{$t('assets')}} &nbsp;
               <router-link class="btn btn-success btn-sm" to="/assets/new">
-                <i class="fas fa-plus"></i> Add Asset
+                <i class="fas fa-plus"></i> {{$t('addAsset')}}
               </router-link>
             </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-                <router-link to="/">Home</router-link>
+                <router-link to="/">{{$t('home')}}</router-link>
               </li>
-              <li class="breadcrumb-item active">assets</li>
+              <li class="breadcrumb-item active">{{$t('assets')}}</li>
             </ol>
           </div>
         </div>
@@ -28,17 +28,28 @@
       <div class="container-fluid">
         <div class="row container-fluid">
             <div class="col-12">
+              <span>{{$t('total')}}: {{assets.length}}</span>
               <div class="card">
                 <!-- card-header -->
                 <div class="card-header">
-                  <h3 class="card-title">Asset Table</h3>
+                  <export-excel
+                    class   = "btn btn-sm  btn-warning"
+                    :data   = "assets"
+                    :fields = "json_fields"
+                    worksheet = "My Worksheet"
+                    name    = "assets.xls">
+                      {{$t('exportExcel')}}
+                  </export-excel>
+
                   <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                       <input
                         type="text"
                         name="table_search"
                         class="form-control float-right"
-                        placeholder="Search"
+                        :placeholder="$t('search')"
+                        v-model="searchValueTable"
+                        v-on:keyup="keyupSearch"
                       >
                       <div class="input-group-append">
                         <button type="submit" class="btn btn-default">
@@ -50,22 +61,22 @@
                 </div>
                 <!-- card-body -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
+                  <table class="table table-bordered table-hover text-nowrap">
                     <thead>
                       <tr>
                         <th >#</th>
                         <!-- <th >ID</th> -->
-                        <th >Asset Code</th>
-                        <th >Asset Type</th>
-                        <th >Purpose</th>
-                        <th >Status</th>
-                        <th >Manager</th>
-                        <th >Action</th>
+                        <th >{{$t('code')}} <span class="float-right sort"><i class="fas fa-sort" v-on:click="sortFunc"></i></span> </th>
+                        <th >{{$t('type')}} <span class="float-right sort"><i class="fas fa-sort"></i></span></th>
+                        <th >{{$t('purpose')}} <span class="float-right sort"><i class="fas fa-sort"></i></span></th>
+                        <th >{{$t('status')}} <span class="float-right sort"><i class="fas fa-sort"></i></span></th>
+                        <th >{{$t('manager')}} <span class="float-right sort"><i class="fas fa-sort"></i></span></th>
+                        <th >{{$t('action')}}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in assets" :key="index">
-                        <th scope="row">{{index}}</th>
+                      <tr v-for="(item, index) in assetInPage" :key="index">
+                        <th scope="row">{{(index+1)+((pageCurrent-1)*showItem)}}</th>
                         <!-- <td>{{item.id}}</td> -->
                         <td>{{item.asset_code}}</td>
                         <td>{{item.asset_type}}</td>
@@ -89,27 +100,33 @@
                 </div>
                 <!-- card-footer -->
                 <div class="card-footer clearfix">
-                  <ul class="pagination pagination-sm m-0 float-right">
-                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                  </ul>
+                  <paginate
+                    :page-count="pageCount"
+                    :click-handler="clickCallback"
+                    :prev-text="'&laquo;'"
+                    :prev-class="'page-item'"
+                    :prev-link-class="'page-link'"
+                    :next-text="'&raquo;'"
+                    :next-class="'page-item'"
+                    :next-link-class="'page-link'"
+                    :container-class="'pagination pagination-sm m-0 float-right'"
+                    :page-class="'page-item'"
+                    :page-link-class="'page-link'">
+                  </paginate>
                 </div>
                 <!-- /.modal--->
                 <div class="modal fade" id="myModal">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Are you sure you want to delete ?</h4>
+                        <h4 class="modal-title">{{$t('deleteMsg')}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-footer justify-content-right">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="onDelete()">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{$t('cancel')}}</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="onDelete()">{{$t('delete')}}</button>
                       </div>
                     </div>
                   </div>
@@ -127,14 +144,64 @@
 import axios from "../../callApi/Api";
 import EventBus from "../EventBus";
 
+import Vue from 'vue'
+import 'babel-polyfill' // fix error: regeneratorRuntime is not defined
+import excel from 'vue-excel-export'
+Vue.use(excel)
+
+import Paginate from 'vuejs-paginate'
+
 export default {
+  components: {
+    Paginate: Paginate
+  },
   data() {
     return {
+      searchValueTable: '',
+      sort: 0,
+      showItem: 6, // so phan tu tren 1 trang
+      pageCount: 0, // tong so trang
+      pageCurrent: 1, // trang hien tai
+      assetInPage: [], // asset cua 1 trang
       assets: [],
-      deleteObj: {}
+      deleteObj: {},
+      json_fields: {
+        'ID': 'id',
+        'Code': 'asset_code',
+        'Type': 'asset_type',
+        'Information': 'asset_info',
+        'Information (JP)': 'asset_info_jp',
+        'Purpose': 'purpose',
+        'Serial Number': 'serial_number',
+        'Start Date': 'started_date',
+        'Status': 'status',
+        'Manager': 'manager',
+        'Owner': 'owner',
+        'Note': 'note',
+        'Confirm': 'confirm',
+        'Created At': 'created',
+        'Updated At': 'updated'
+        },
+        json_meta: [
+          [
+            {
+              'key': 'charset',
+              'value': 'utf-8'
+            }
+          ]
+        ],
+    
     };
   },
   methods: {
+    initValue(assets){
+      this.pageCount = Math.ceil(assets.length/this.showItem)
+      this.assetInPage = assets.slice(this.showItem*(this.pageCurrent-1), this.showItem*this.pageCurrent)
+    },
+    clickCallback(pageNum) {
+      this.pageCurrent = pageNum
+      this.initValue(this.assets)
+    },
     onDelete() {
       axios.delete("/assets/" + this.deleteObj.id).then(response => {
         for (let i = 0; i < this.assets.length; i++) {
@@ -143,15 +210,57 @@ export default {
           }
         }
         this.deleteObj = {};
+        this.initValue(this.assets)
       });
+    },
+    sortFunc() {
+      if(this.sort % 2 == 0){
+        this.assets = this.assets.sort((a,b) => {
+          const codeA = a.asset_code.toUpperCase()
+          const codeB = b.asset_code.toUpperCase()
+          if( codeA < codeB){
+            return -1;
+          }
+          if( codeA > codeB){
+            return 1;
+          }
+          return 0;
+        })
+        this.initValue(this.assets)
+      }
+      else if( this.sort % 2 == 1){
+        this.assets = this.assets.sort((a,b) => {
+          const codeA = a.asset_code.toUpperCase()
+          const codeB = b.asset_code.toUpperCase()
+          if( codeA < codeB){
+            return 1;
+          }
+          if( codeA > codeB){
+            return -1;
+          }
+          return 0;
+        })
+        this.initValue(this.assets)
+      }
+
+      this.sort++;
+    },
+    keyupSearch() {
+      const arraySearch = []
+      this.assets.forEach(item => {
+        if(item.asset_code.toUpperCase().includes(this.searchValueTable.toUpperCase())){
+          arraySearch.push(item)
+        }
+      });
+      this.initValue(arraySearch)
     }
   },
   mounted() {
     axios
       .get("/assets")
       .then(response => {
-        console.log(response.data.data);
         this.assets = response.data.data;
+        this.initValue(this.assets)
       })
       .catch(error => {
         console.log(error);
@@ -159,3 +268,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.sort:hover {
+  cursor: pointer;
+}
+</style>

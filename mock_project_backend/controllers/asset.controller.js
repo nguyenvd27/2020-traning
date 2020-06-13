@@ -113,22 +113,22 @@ module.exports.delete = (req, res) => {
     Asset.destroy({
         where: { id: id }
     })
-        .then(data => {
-            if (data > 0) {
-                res.json({
-                    result: 'ok',
-                    data: data,
-                    message: `Delete successfully`
-                });
-            } else {
-                res.json({
-                    result: 'failed',
-                    data: data,
-                    message: `Delete failed`
-                });
-            }
-        })
-        .catch(err => {
-            res.send('error: ' + err)
-        })
+    .then(data => {
+        if (data > 0) {
+            res.json({
+                result: 'ok',
+                data: data,
+                message: `Delete successfully`
+            });
+        } else {
+            res.json({
+                result: 'failed',
+                data: data,
+                message: `Delete failed`
+            });
+        }
+    })
+    .catch(err => {
+        res.send('error: ' + err)
+    })
 }

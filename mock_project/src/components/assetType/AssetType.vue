@@ -5,18 +5,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Asset Type &nbsp;
+            <h1>{{$t('assetTypes')}} &nbsp;
               <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addModal" data-whatever="@mdo">
-                <i class="fas fa-plus"></i> Add Asset Type
+                <i class="fas fa-plus"></i> {{$t('add')}}
               </button>
             </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-                <router-link to="/">Home</router-link>
+                <router-link to="/">{{$t('home')}}</router-link>
               </li>
-              <li class="breadcrumb-item active">asset-type</li>
+              <li class="breadcrumb-item active">{{$t('assetTypes')}}</li>
             </ol>
           </div>
         </div>
@@ -28,27 +28,27 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addModalLabel">New Asset Type</h5>
+            <h5 class="modal-title" id="addModalLabel">{{$t('newAssetType')}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form v-on:submit.prevent="onAdd">
               <div class="form-group">
-                <label for="name-add" class="col-form-label">Name: {{addObj.name}}</label>
+                <label for="name-add" class="col-form-label">{{$t('name')}}: {{addObj.name}}</label>
                 <input type="text" class="form-control" id="name-add" required v-model="addObj.name">
               </div>
               <div class="form-group">
-                <label for="creator-email-add" class="col-form-label">Creator Email: {{addObj.email}}</label>
-                <input type="text" class="form-control" id="creator-email-add" required v-model="addObj.email">
+                <label for="creator-email-add" class="col-form-label">{{$t('creatorEmail')}}: {{addObj.email}}</label>
+                <input type="text" class="form-control" id="creator-email-add" disabled v-model="addObj.email">
               </div>
 
               <hr>
               <div class="float-right">
-                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button v-if="this.errors==0" class="btn btn-primary" data-dismiss="modal" v-on:click="onAdd()">Add</button>
-                <button v-else class="btn btn-primary" v-on:click="onAdd()">Add</button>
+                <button class="btn btn-secondary" data-dismiss="modal">{{$t('cancel')}}</button>
+                <button v-if="addObj.name==''" class="btn btn-primary">{{$t('add')}}</button>
+                <button v-else class="btn btn-primary" data-dismiss="modal" v-on:click="onAdd">{{$t('add')}}</button>
               </div>
             </form>
           </div>
@@ -64,10 +64,9 @@
               <div class="card">
                 <!-- card-header -->
                 <div class="card-header">
-                  <h3 class="card-title">Asset Type Table</h3>
                   <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
-                      <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                      <input type="text" name="table_search" class="form-control float-right" :placeholder="$t('search')">
                       <div class="input-group-append">
                         <button type="submit" class="btn btn-default">
                           <i class="fas fa-search"></i>
@@ -78,16 +77,16 @@
                 </div>
                 <!-- card-body -->
                 <div class="card-body table-responsive p-0">
-                  <table class="table table-hover text-nowrap">
+                  <table class="table table-bordered table-hover text-nowrap">
                     <thead>
                       <tr>
                         <th >#</th>
                         <!-- <th >ID</th> -->
                         <th >ID</th>
-                        <th >Name</th>
-                        <th >Creator Email</th>
-                        <th >Created At</th>
-                        <th >Action</th>
+                        <th >{{$t('name')}}</th>
+                        <th >{{$t('creatorEmail')}}</th>
+                        <th >{{$t('created')}}</th>
+                        <th >{{$t('action')}}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -128,7 +127,7 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="updateModalLabel">Edit Asset Type</h5>
+                        <h5 class="modal-title" id="updateModalLabel">{{$t('editAssetType')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -137,51 +136,25 @@
                         <form>
                           <div class="form-group">
                             <label for="id-update" class="col-form-label">ID:</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="id-update"
-                              disabled
-                              v-model="updateObj.id"
-                            >
+                            <input type="text" class="form-control" id="id-update" disabled v-model="updateObj.id">
                           </div>
                           <div class="form-group">
-                            <label for="name" class="col-form-label">Name:</label>
+                            <label for="name" class="col-form-label">{{$t('name')}}:</label>
                             <input type="text" class="form-control" id="name" v-model="updateObj.name">
                           </div>
                           <div class="form-group">
-                            <label for="creator-email" class="col-form-label">Creator Email:</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="creator-email"
-                              v-model="updateObj.email"
-                            >
+                            <label for="creator-email" class="col-form-label">{{$t('creatorEmail')}}:</label>
+                            <input type="text" class="form-control" id="creator-email" disabled v-model="updateObj.email">
                           </div>
                           <div class="form-group">
-                            <label for="created-at" class="col-form-label">Created At:</label>
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="created-at"
-                              disabled
-                              v-model="updateObj.created"
-                            >
+                            <label for="created-at" class="col-form-label">{{$t('created')}}:</label>
+                            <input type="text" class="form-control" id="created-at" disabled v-model="updateObj.created">
                           </div>
                         </form>
                       </div>
                       <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-dismiss="modal"
-                        >Cancel</button>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-dismiss="modal"
-                          v-on:click="onUpdate()"
-                        >Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{$t('cancel')}}</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="onUpdate()">{{$t('update')}}</button>
                       </div>
                     </div>
                   </div>
@@ -191,14 +164,14 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete ?</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">{{$t('deleteMsg')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="onDelete()" >Delete</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal">{{$t('cancel')}}</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="onDelete()" >{{$t('delete')}}</button>
                       </div>
                     </div>
                   </div>
@@ -215,39 +188,35 @@
 <script>
 import axios from "../../callApi/Api";
 import EventBus from "../EventBus";
+
+import jwtDecode from 'jwt-decode'
 import VueCookie from 'vue-cookie'
 
 export default {
   data() {
+    const token = VueCookie.get('usertoken')
+    const decoded = jwtDecode(token)
     return {
       assetTypes: [],
-      addObj: {},
+      addObj: {
+        name: '',
+        email: decoded.email
+      },
       updateObj: {},
-      deleteObj: {},
-      errors: 0
+      deleteObj: {}
     };
   },
   methods: {
     onAdd() {
-      this.errors = 0;
-      if (this.addObj.name == "" || this.addObj.name == null) {
-        this.errors++;
-      }
-      if (this.addObj.email == "" || this.addObj.email == null) {
-        this.errors++;
-      }
-
-      if(this.errors == 0){
-        axios
-        .post("/asset-type", {
-          name: this.addObj.name,
-          email: this.addObj.email
-        })
-        .then(res => {
-          this.assetTypes.push(res.data.data);
-          this.addObj = {};
-        });
-      }
+      axios
+      .post("/asset-type", {
+        name: this.addObj.name,
+        email: this.addObj.email
+      })
+      .then(res => {
+        this.assetTypes.push(res.data.data);
+        this.addObj.name = '';
+      });
     },
     onUpdate() {
       axios
@@ -280,11 +249,9 @@ export default {
     axios
       .get("/asset-type")
       .then(response => {
-        console.log(response.data.data);
         this.assetTypes = response.data.data;
       })
       .catch(error => {
-        console.log('error')
         console.log(error);
       });
   }

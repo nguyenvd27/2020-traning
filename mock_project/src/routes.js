@@ -1,8 +1,8 @@
 import Home from './components/Home.vue'
-import Login from './components/Login'
-import Register from './components/Register'
 import Contact from './components/Contact'
 
+import Login from './components/user/Login'
+import Register from './components/user/Register'
 import Profile from './components/user/Profile'
 import User from './components/user/User.vue'
 

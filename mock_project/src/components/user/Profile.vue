@@ -5,14 +5,14 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Profile</h1>
+            <h1>{{$t('profile')}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
-                <router-link to="/">Home</router-link>
+                <router-link to="/">{{$t('home')}}</router-link>
               </li>
-              <li class="breadcrumb-item active">profile</li>
+              <li class="breadcrumb-item active">{{$t('profile')}}</li>
             </ol>
           </div>
         </div>
@@ -39,23 +39,23 @@
 
                 <h3 class="profile-username text-center">{{name}}</h3>
 
-                <p class="text-muted text-center">Admin</p>
+                <p class="text-muted text-center">{{$t('admin')}}</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                     <b>ID</b> <a class="float-right">{{id}}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Email</b> <a class="float-right">{{email}}</a>
+                    <b>{{$t('email')}}</b> <a class="float-right">{{email}}</a>
                   </li>
                   <li class="list-group-item">
-                    <b>Name</b> <a class="float-right">{{name}}</a>
+                    <b>{{$t('name')}}</b> <a class="float-right">{{name}}</a>
                   </li>
                   <li v-if="created" class="list-group-item">
-                    <b>Created</b> <a class="float-right">{{created}}</a>
+                    <b>{{$t('created')}}</b> <a class="float-right">{{created}}</a>
                   </li>
                   <li v-else class="list-group-item">
-                    <b>Created</b> <a class="float-right">by Facebook</a>
+                    <b>{{$t('created')}}</b> <a class="float-right">Facebook</a>
                   </li>
                 </ul>
 
