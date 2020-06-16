@@ -142,9 +142,15 @@
 import axios from "../../callApi/Api";
 import EventBus from "../EventBus";
 
+import jwtDecode from 'jwt-decode'
+import VueCookie from 'vue-cookie'
+
 export default {
   data() {
+    const token = VueCookie.get('usertoken')
+    const decoded = jwtDecode(token)
     return {
+      email: decoded.email,
       asset: {
         asset_code: "",
         asset_type: "",
@@ -168,6 +174,7 @@ export default {
     onCreate() {
       axios
         .post("/assets", {
+          email: this.email,
           asset_code: this.asset.asset_code,
           asset_type: this.asset.asset_type,
           asset_info: this.asset.asset_info,
@@ -182,7 +189,12 @@ export default {
           confirm: this.asset.confirm
         })
         .then(res => {
-          this.$router.push({ name: "asset", path: "/assets" });
+          // console.log('res: ', res)
+          if(res.data.error){
+            alert('You are not admin')
+          } else {
+            this.$router.push({ name: "asset", path: "/assets" });
+          }
         })
         .catch(error => {
           console.log(error);

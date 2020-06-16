@@ -77,5 +77,6 @@
   "exportExcel": "Export Excel",
   "comment": "Comment",
   "total": "Total",
-  "language": "Language"
+  "language": "Language",
+  "notAdmin": "You do not have Administrator access"
 }

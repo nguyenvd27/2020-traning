@@ -91,7 +91,7 @@ export default {
       .then(res => {
         if(res.data.token){
           // console.log(res.data.token);
-          VueCookie.set("usertoken", res.data.token, "1h");
+          VueCookie.set("usertoken", res.data.token, { expires: '1h' });
           this.emitMethod();
           this.$router.push({ name: "homepage", path: "/" });
         }
@@ -122,7 +122,7 @@ export default {
         })
         .then( res => {
           // console.log(res.data.token)
-          VueCookie.set("usertoken", res.data.token, "1h");
+          VueCookie.set("usertoken", res.data.token, { expires: '1h' });
           this.emitMethod();
           this.$router.push({ name: "homepage", path: "/" });
         })

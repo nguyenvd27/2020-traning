@@ -77,5 +77,6 @@
   "exportExcel": "Xuất Excel",
   "comment": "Bình luận",
   "total": "Tổng",
-  "language": "Ngôn ngữ"
+  "language": "Ngôn ngữ",
+  "notAdmin": "Bạn không có quyền quản trị viên"
 }

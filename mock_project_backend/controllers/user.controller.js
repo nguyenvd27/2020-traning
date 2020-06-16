@@ -6,6 +6,24 @@ const bcrypt = require('bcrypt')
 
 process.env.SECRET_KEY = 'secret'
 
+module.exports.isAdmin = (req, res, next) => {
+  // console.log('email: ', req.body.email)
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then( data => {
+    // console.log('day la isAdmin: ', data)
+    if(data.dataValues.admin == '1' || data.dataValues.admin == 1){
+      next()
+    }else {
+      console.log('user is not admin!!!')
+      res.json({ error: 'user is not admin' })
+    }
+  })
+}
+
 module.exports.register = (req, res) => {
   const today = new Date()
   const userData = {

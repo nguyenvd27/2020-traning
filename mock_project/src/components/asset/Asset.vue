@@ -151,12 +151,18 @@ Vue.use(excel)
 
 import Paginate from 'vuejs-paginate'
 
+import jwtDecode from 'jwt-decode'
+import VueCookie from 'vue-cookie'
+
 export default {
   components: {
     Paginate: Paginate
   },
   data() {
+    const token = VueCookie.get('usertoken')
+    const decoded = jwtDecode(token)
     return {
+      email: decoded.email,
       searchValueTable: '',
       sort: 0,
       showItem: 6, // so phan tu tren 1 trang
@@ -203,14 +209,24 @@ export default {
       this.initValue(this.assets)
     },
     onDelete() {
-      axios.delete("/assets/" + this.deleteObj.id).then(response => {
-        for (let i = 0; i < this.assets.length; i++) {
-          if (this.assets[i].id == this.deleteObj.id) {
-            this.assets.splice(i, 1);
-          }
+      axios.delete("/assets/" + this.deleteObj.id,
+      {
+        data: {
+          email: this.email
         }
-        this.deleteObj = {};
-        this.initValue(this.assets)
+      }).then(res => {
+        if(res.data.error){
+          alert('You are not admin')
+          console.log('you not admin')
+        } else {
+          for (let i = 0; i < this.assets.length; i++) {
+            if (this.assets[i].id == this.deleteObj.id) {
+              this.assets.splice(i, 1);
+            }
+          }
+          this.deleteObj = {};
+          this.initValue(this.assets)
+        }
       });
     },
     sortFunc() {

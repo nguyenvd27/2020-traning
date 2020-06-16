@@ -200,9 +200,18 @@
 import axios from "../../callApi/Api";
 import EventBus from "../EventBus";
 
+
+import jwtDecode from 'jwt-decode'
+import VueCookie from 'vue-cookie'
+
+import i18n from '../../config/i18n';
+
 export default {
   data() {
+    const token = VueCookie.get('usertoken')
+    const decoded = jwtDecode(token)
     return {
+      email: decoded.email,
       id: this.$route.params.id,
       asset: {},
       purposes: [],
@@ -232,6 +241,7 @@ export default {
     },
     onUpdate() {
       axios.put("/assets/" + this.id, {
+        email: this.email,
         asset_code: this.asset.asset_code,
         asset_type: this.asset.asset_type,
         asset_info: this.asset.asset_info,
@@ -246,9 +256,14 @@ export default {
         confirm: this.asset.confirm,
       })
       .then(res => {
-        const today = new Date()
-        this.asset.updated = today
-        alert("Update successful")
+        if(res.data.error){
+          alert("You are not admin")
+          console.log('you not admin')
+        } else {
+          const today = new Date()
+          this.asset.updated = today
+          alert("Update successful")
+        }
       })
       .catch(error => {
         console.log(error);

@@ -3,11 +3,14 @@ import axios from './callApi/Api'
 
 const isAuth = () => {
   return new Promise((resolve, reject) => {
-    const check = VueCookie.get('usertoken')
-    if(check != null){
+    // const check = 
+    if(VueCookie.get('usertoken') === null){
+      reject('false')
+    }
+    else {
       axios.post('/api/authenticate',
         {
-          token: check
+          token: VueCookie.get('usertoken')
         }
       ).then((res) => {
         if(res.data.message == 'false'){
@@ -18,9 +21,6 @@ const isAuth = () => {
       }).catch((err) => {
         reject('false')
       })
-    }
-    else {
-      reject('false')
     }
   })
 }

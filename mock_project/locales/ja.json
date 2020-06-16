@@ -77,5 +77,6 @@
   "exportExcel": "エクセルをエクスポート",
   "comment": "コメント",
   "total": "合計",
-  "language": "言語"
+  "language": "言語",
+  "notAdmin": "管理者アクセス権がありません"
 }

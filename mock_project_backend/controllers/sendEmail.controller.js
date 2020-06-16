@@ -5,7 +5,7 @@ const jwtDecode = require('jwt-decode')
 const Asset = require('../models/Asset')
 
 process.env.SECRET_KEY = 'secret'
-process.env.pass = '********' // dien dung password o day
+process.env.pass = 'v2Lbtnd3httnN27' // dien dung password o day
 
 
 module.exports.sendEmail = (req, res) => {
@@ -61,7 +61,8 @@ module.exports.checkEmail = (req, res) => {
     }
   })
   .then(data => {
-    res.send('Xác nhận bàn giao thành công, số lượng: '+data)
+    // res.send('Xác nhận bàn giao thành công, số lượng: '+data)
+    res.sendFile(__dirname + '/confirm.html')
   })
   .catch(err => {
     res.send('Bàn giao thất bại, Lỗi: '+err)
