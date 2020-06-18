@@ -132,3 +132,34 @@ module.exports.delete = (req, res) => {
         res.send('error: ' + err)
     })
 }
+
+module.exports.importFile = (req, res) => {
+    const today = new Date()
+    console.log('datadata: ', req.body.assets)
+    const assets = req.body.assets
+
+    assets.forEach(element => {
+        const data = {
+            asset_code: element.asset_code,
+            asset_type: element.asset_type,
+            asset_info: element.asset_info,
+            asset_info_jp: element.asset_info_jp,
+            purpose: element.purpose,
+            serial_number: element.serial_number,
+            started_date: element.started_date,
+            status: element.status,
+            manager: element.manager,
+            owner: element.owner,
+            note: element.note,
+            confirm: element.confirm,
+            created: today,
+            updated: today
+        }
+        Asset.create(data)
+    });
+
+    res.json({
+        result: 'success'
+    })
+    
+}

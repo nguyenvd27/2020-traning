@@ -18,6 +18,7 @@ import EmployeeDetail from './components/employee/EmployeeDetail'
 import Asset from './components/asset/Asset'
 import AssetNew from './components/asset/AssetNew'
 import AssetDetail from './components/asset/AssetDetail'
+import ImportFile from './components/asset/ImportFile'
 
 export const routes = [
   { path: '/', name: 'homepage', component: Home, meta: { requiresAuth: true } },
@@ -39,5 +40,7 @@ export const routes = [
 
   {path: '/assets', name: 'asset', component: Asset, meta: { requiresAuth: true }},
   {path: '/assets/new', name: 'asset-new', component: AssetNew, meta: { requiresAuth: true }},
+  {path: '/assets/import-file', name: 'import-file', component: ImportFile, meta: { requiresAuth: true }},
   {path: '/assets/:id', name: 'asset-detail', component: AssetDetail, meta: { requiresAuth: true }}
+  
 ]

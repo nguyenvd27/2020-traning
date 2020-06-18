@@ -10,6 +10,8 @@ router.get('/:id', controller.show)
 
 router.post('/', isAdmin.isAdmin, controller.create);
 
+router.post('/import-file', isAdmin.isAdmin, controller.importFile);
+
 router.put('/:id', isAdmin.isAdmin, controller.update);
 
 router.delete('/:id', isAdmin.isAdmin, controller.delete);

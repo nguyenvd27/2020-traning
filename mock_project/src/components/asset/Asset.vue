@@ -32,6 +32,8 @@
               <div class="card">
                 <!-- card-header -->
                 <div class="card-header">
+                  <!-- <input type="file" v-on:change="importXLSX"> -->
+                  <router-link class="btn btn-sm btn-success" to="/assets/import-file">Import File</router-link>
                   <export-excel
                     class   = "btn btn-sm  btn-warning"
                     :data   = "assets"
@@ -153,6 +155,13 @@ import Paginate from 'vuejs-paginate'
 
 import jwtDecode from 'jwt-decode'
 import VueCookie from 'vue-cookie'
+// import XLSX from 'xlsx'
+
+// import fs from 'fs'
+// var fs = require('fs')
+
+
+import XLSX from 'xlsx'
 
 export default {
   components: {
@@ -200,6 +209,29 @@ export default {
     };
   },
   methods: {
+    importXLSX(e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.readAsArrayBuffer(file)
+      reader.onload = e => {
+        const data = new Uint8Array(reader.result)
+        const wb = XLSX.read(data, {type: 'array'})
+        // const sheet1 = wb.Sheets.Sheet1
+        // console.log(wb)
+        
+        let json_object = {}
+
+        wb.SheetNames.forEach(function(sheetName) {
+        // Here is your object
+        const XL_row_object = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
+        json_object = JSON.stringify(XL_row_object);
+      })
+
+      console.log('json: ' + json_object);
+      
+        
+      }
+    },
     initValue(assets){
       this.pageCount = Math.ceil(assets.length/this.showItem)
       this.assetInPage = assets.slice(this.showItem*(this.pageCurrent-1), this.showItem*this.pageCurrent)
